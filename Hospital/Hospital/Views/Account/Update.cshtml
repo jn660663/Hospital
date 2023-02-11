@@ -1,0 +1,107 @@
+﻿@model Hospital.DTO.Account.UpdateUserDto
+
+<div class="row offset-2 col-md-8">
+    <form asp-action="Update" class="form-panel">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row row-space">
+            <div class="form-group header-text">
+                Edycja konta
+            </div>
+        </div>
+        <div class="row row-space">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="Name" class="form-text"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="LastName" class="form-text"></label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row row-space">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="Email" class="form-text"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="PWZ" class="form-text"></label>
+                    <input asp-for="PWZ" class="form-control" />
+                    <span asp-validation-for="PWZ" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row row-space" id="specDiv">
+            <div class="form-group">
+                <label asp-for="Specialization" class="form-text"></label>
+                <select asp-for="Specialization" class="form-control" id="specSel">
+                    <option value="" selected disabled hidden>Wybierz specjalizację</option>
+                    <option value="Kardiologia">Kardiologia</option>
+                    <option value="Gastrologia">Gastrologia</option>
+                    <option value="Laryngologia">Laryngologia</option>
+                    <option value="Ortopedia">Ortopedia</option>
+                    <option value="Alergologia">Alergologia</option>
+                </select>
+                <span asp-validation-for="Specialization" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row row-space">
+            <div class="form-group">
+                <label asp-for="Role" class="form-text"></label>
+                <select asp-for="Role" class="form-control" onchange="changeRole(this.value)" id="roleSel">
+                    <option value="" selected disabled hidden>Wybierz rolę</option>
+                    <option value="Doctor">Lekarz</option>
+                    <option value="Nurse">Pielęgniarka</option>
+                    <option value="Receptionist">Recepcjonistka</option>
+                    <option value="Admin">Administrator</option>
+                </select>
+                <span asp-validation-for="Role" class="text-danger"></span>
+            </div>
+
+        </div>
+
+        <div class="row row-space">
+            <div class="form-group" style="text-align:right">
+                <input type="submit" value="Edytuj" class="signup-button" />
+            </div>
+        </div>
+
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var role = document.getElementById("roleSel").value;
+            if (role == "Admin" || role == "Receptionist") {
+                var targetDiv = document.getElementById("specDiv");
+                targetDiv.style.display = "none";
+                document.getElementById("specSel").value = "";
+            }
+        });
+        function changeRole(role) {
+            var targetDiv = document.getElementById("specDiv");
+
+            if (role == 'Admin' || role == 'Receptionist') {
+                targetDiv.style.display = "none";
+                document.getElementById("specSel").value = "";
+            }
+            else {
+                targetDiv.style.display = "block";
+            }
+        }
+    </script>
+}

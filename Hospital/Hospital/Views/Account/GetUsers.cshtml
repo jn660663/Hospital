@@ -1,0 +1,106 @@
+﻿@model IEnumerable<Hospital.DTO.User.UserDto>
+
+@{
+    Layout = "_Dashboard";
+}
+
+<div class="col-md-2 col-lg-2 left-panel">
+    <div class="panel-item active">
+        Użytkownicy
+    </div>
+</div>
+<div class="col-md-10 col-lg-10 main-panel">
+    <div class="offset-md-1 col-md-10" style="margin-top: 5rem;">
+        <div style="text-align: right;">
+            @Html.ActionLink("Dodaj","Create","Account",null,new { @class = "btn btn-primary", @type = "button"})
+        </div>
+        @if (Model != null && Model.Any())
+        {
+            <table class="table table-bordered" style="margin-top: 1rem;">
+                <thead>
+                    <tr>
+                        <th>
+                            Użytkownik
+                        </th>
+                        <th>
+                            E-mail
+                        </th>
+                        <th>
+                            Rola
+                        </th>
+                        <th>
+                            Status
+                        </th>
+                        <th>
+                            Akcja
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td>
+                                @user.ToString()
+                            </td>
+                            <td>
+                                @user.Email
+                            </td>
+                            <td>
+                                @user.Role
+                            </td>
+                            <td>
+                                @GetStatus(@user.IsActive)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edytuj","Update","Account",new { id = user.Id },new { @class = "btn btn-primary", @type = "button"})
+                                @Html.ActionLink(@ChangeStatusName(user.IsActive),"ChangeStatus","Account",new { id = user.Id, isActive = user.IsActive },new { @class = @ChangeStatusClass(user.IsActive), @type = "button"})
+                                @Html.ActionLink("Usuń","Delete","Account",new { id = user.Id },new { @class = "btn btn-danger", @type = "button"})
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div style="text-align:center">
+                <img src="https://cdn-icons-png.flaticon.com/512/6134/6134065.png" width="150" height="150" style="margin-bottom: 15px;" /><br />
+                Brak przypisanych badań
+            </div>
+        }
+    </div>
+</div>
+
+@functions {
+    public string GetStatus(bool isActive)
+    {
+        if (isActive)
+        {
+            return "Aktywny";
+        }
+
+        return "Nieaktywny";
+    }
+
+    public string ChangeStatusName(bool isActive)
+    {
+        if (isActive)
+        {
+            return "Dezaktywuj";
+        }
+
+        return "Aktywuj";
+    }
+
+    public string ChangeStatusClass(bool isActive)
+    {
+        if (isActive)
+        {
+            return "btn btn-warning";
+        }
+
+        return "btn btn-success";
+    }
+}

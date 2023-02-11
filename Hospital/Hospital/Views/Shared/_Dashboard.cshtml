@@ -14,7 +14,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 navbar-fixed-top" style="margin-bottom:0px !important; position:fixed; width:100%;">
             <div class="container-fluid">
                 <div class="navbar-brand">
                     <a href="/Account/Login"><img src="https://cdn-icons-png.flaticon.com/512/746/746814.png" width="30" height="30" style="margin-right: 10px;" /> Szpital</a>
@@ -36,21 +36,20 @@
                     else
                     {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">Rejestracja</a>
+                            <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Zarejestruj</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Login</a>
+                            <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Zaloguj</a>
                         </li>
                     }
                 </ul>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+    <div class="col-md-12 row" style="padding-top:57px;">
+        @RenderBody()
     </div>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

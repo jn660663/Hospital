@@ -1,18 +1,139 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-color: #F2F2F2;
+}
+
+.row-space {
+    margin: 15px 0px 15px 0px;
+}
+
+.header-text {
+    font-weight: 600;
+    font-size: 24px;
+    color: #161358;
+}
+
+.form-panel {
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid #CCE5FF;
+}
+
+.signup-button {
+    background-color: #00a09b;
+    border-radius: 5px;
+    color: white;
+    font-weight: 400;
+    text-transform: uppercase;
+    padding: 10px 30px;
+    border: 0px;
+    margin-bottom: 15px;
+}
+
+    .signup-button:hover {
+        cursor: pointer;
+        background-color: #038f8a;
+    }
+
+.login-button {
+    background-color: white;
+    border-radius: 5px;
+    color: dimgray;
+    font-weight: 400;
+    text-transform: uppercase;
+    padding: 10px 30px;
+    border: 1px solid gray;
+    margin-top: 15px;
+}
+
+    .login-button:hover {
+        cursor: pointer;
+        background-color: whitesmoke;
+    }
+
+.form-text {
+    color: #161358 !important;
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.active-message {
+    background-color: lightcoral;
+    padding: 15px;
+    text-align: center !important;
+    color: white;
+    border-radius: 5px;
+    border: 1px solid indianred;
+    margin-bottom: 10px;
+}
+
+.left-panel {
+    height: 100vh;
+    background-color: white;
+    /*position: fixed;*/
+    border-right: 1px solid #dee2e6;
+    padding: 0px !important;
+}
+
+.main-panel {
+}
+
+.panel-item {
+    padding: 10px;
+    background-color: #f0f7f8;
+    border-bottom: 1px solid #c9e3f0;
+    margin-bottom: 5px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.active {
+    background-color: cornflowerblue;
+}
+
+thead {
+    background-color: #c9e3f0;
+    color: #95a7af;
+}
+
+tbody {
+    background-color: white;
+}
+
+.slidedown_head {
+    font-size: 16px;
+    text-align: left;
+    border: 1px solid gray;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #e9ecef;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.slidedown_body {
+    padding: 15px;
+    border: 1px solid lavender;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+a {
+    text-decoration: none;
 }
