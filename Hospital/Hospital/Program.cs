@@ -1,5 +1,15 @@
-var builder = WebApplication.CreateBuilder(args);
+using Hospital.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
+var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(connectionString));
+builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
+                            .AddRoles<IdentityRole<Guid>>()
+                            .AddEntityFrameworkStores<ApplicationDbContext>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
