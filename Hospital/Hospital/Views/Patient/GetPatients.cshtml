@@ -4,15 +4,21 @@
 }
 
 <div class="col-md-2 col-lg-2 left-panel">
+    @if (User.IsInRole(nameof(RoleType.Doctor)))
+    {
+        <div class="panel-item">
+            @Html.ActionLink("Pacjenci","GetPatients","Patient",null,null)
+        </div>
+        <div class="panel-item">
+            @Html.ActionLink("Wizyty","GetVisits","Visit")
+        </div>
+    }
+    @if (User.IsInRole(nameof(RoleType.Doctor)) || User.IsInRole(nameof(RoleType.Nurse)))
+    {
         <div class="panel-item active">
-            @Html.ActionLink("Pacjenci","Doctor","Dashboard",null,null)
+            @Html.ActionLink("Badania","GetExaminations","Examination")
         </div>
-        <div class="panel-item">
-            @Html.ActionLink("Wizyty","Visits","Visit")
-        </div>
-        <div class="panel-item">
-            @Html.ActionLink("Badania","Index","Examination")
-        </div>
+    }
 </div>
 <div class="col-md-10 col-lg-10 main-panel">
     <div class="offset-md-1 col-md-10" style="margin-top: 5rem;">

@@ -1,0 +1,79 @@
+﻿@model Hospital.DTO.Visit.ViewVisitDto
+
+<div class="row offset-2 col-md-8">
+    <div class="form-panel">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row row-space">
+            <div class="form-group header-text">
+                Dane pacjenta
+            </div>
+        </div>
+        <div class="row row-space">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label asp-for="@Model.Patient.Name" class="form-text"></label>
+                    <input asp-for="@Model.Patient.Name" class="form-control" disabled="disabled" />
+                    <span asp-validation-for="@Model.Patient.Name" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row row-space">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label asp-for="@Model.Patient.LastName" class="form-text"></label>
+                    <input asp-for="@Model.Patient.LastName" class="form-control" disabled="disabled" />
+                    <span asp-validation-for="@Model.Patient.LastName" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row row-space">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="@Model.Patient.Age" class="form-text"></label>
+                    <input asp-for="@Model.Patient.Age" class="form-control" disabled="disabled" />
+                    <span asp-validation-for="@Model.Patient.Age" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="@Model.Patient.Pesel" class="form-text"></label>
+                    <input asp-for="@Model.Patient.Pesel" class="form-control" disabled="disabled" />
+                    <span asp-validation-for="@Model.Patient.Pesel" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row row-space">
+            <div class="form-group header-text">
+                Dane wizyty
+            </div>
+        </div>
+        <div class="row row-space col-md-12">
+            <div class="form-group">
+                <label asp-for="@Model.VisitDate" class="form-text"></label>
+                <input asp-for="@Model.VisitDate" class="form-control" disabled="disabled" type="date" />
+                <span asp-validation-for="@Model.VisitDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row row-space col-md-12">
+            <div class="form-group">
+                <label asp-for="@Model.Recognition" class="form-text"></label>
+                <textarea asp-for="@Model.Recognition" class="form-control" disabled="disabled"></textarea>
+                <span asp-validation-for="@Model.Recognition" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row row-space col-md-12">
+            <div class="form-group">
+                <label asp-for="@Model.Description" class="form-text"></label>
+                <textarea asp-for="@Model.Description" class="form-control" disabled="disabled"></textarea>
+                <span asp-validation-for="@Model.Description" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

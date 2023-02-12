@@ -1,0 +1,46 @@
+﻿@model Hospital.DTO.Visit.AssignVisitToDoctorDto
+
+<div class="row offset-2 col-md-8">
+    <form asp-action="AssignVisitToDoctor" class="form-panel">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row row-space">
+            <div class="form-group header-text">
+                Tworzysz wizytę
+            </div>
+        </div>
+        <div class="row row-space col-md-12">
+            <div class="col-md-6">
+                @Html.DropDownListFor(m => m.PatientId, Model.Patients, new { @class = "form-control" })
+                <span asp-validation-for="PatientId" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                @Html.DropDownListFor(m => m.DoctorId, Model.Doctors, new { @class = "form-control" })
+                <span asp-validation-for="DoctorId" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row row-space col-md-12">
+            <div class="col-md-6">
+                <label asp-for="@Model.VisitDate" class="form-text"></label>
+                <input asp-for="@Model.VisitDate" class="form-control" type="date" id="datePicker" />
+                <span asp-validation-for="@Model.VisitDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group" style="text-align:right">
+                <input type="submit" value="Dodaj" class="signup-button" />
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript">
+        $(document).ready(function () {
+            document.getElementById('datePicker').valueAsDate = new Date();
+            document.getElementById('datePicker').min = new Date().toISOString().split("T")[0];
+        });
+    </script>
+}

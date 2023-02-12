@@ -218,11 +218,11 @@ namespace Hospital.Controllers
             }
             else if (role == RoleType.Nurse.ToString())
             {
-                return RedirectToAction("Index", "Examination");
+                return RedirectToAction("GetExaminations", "Examination");
             }
             else if (role == RoleType.Receptionist.ToString())
             {
-                return RedirectToAction("Index", "Receptionist");
+                return RedirectToAction("GetVisits", "Visit");
             }
             return RedirectToAction("Login");
         }

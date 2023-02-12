@@ -1,0 +1,44 @@
+﻿@model Hospital.DTO.Visit.UpdateVisitDto
+
+<div class="row offset-2 col-md-8">
+    <form asp-action="CreateVisit" class="form-panel">
+        <input hidden asp-for="Id" />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row row-space">
+            <div class="form-group header-text">
+                Trwa wizyta
+            </div>
+        </div>
+        <div class="row row-space">
+            <div class="col-md-12">
+                <label asp-for="@Model.Patient" class="form-text"></label>
+                <input asp-for="@Model.Patient" class="form-control" disabled="disabled" />
+            </div>
+        </div>
+        <div class="row row-space col-md-12">
+            <div class="form-group">
+                <label asp-for="@Model.Recognition" class="form-text"></label>
+                <textarea asp-for="@Model.Recognition" class="form-control"></textarea>
+                <span asp-validation-for="@Model.Recognition" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row row-space col-md-12">
+            <div class="form-group">
+                <label asp-for="@Model.Description" class="form-text"></label>
+                <textarea asp-for="@Model.Description" class="form-control"></textarea>
+                <span asp-validation-for="@Model.Description" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row row-space">
+            <div class="form-group" style="text-align:right">
+                <input type="submit" value="Edytuj" class="signup-button" />
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

@@ -19,6 +19,10 @@ builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IPatientService, PatientService>();
 builder.Services.AddTransient<IPatientRepository, PatientRepository>();
+builder.Services.AddTransient<IExaminationService, ExaminationService>();
+builder.Services.AddTransient<IExaminationRepository, ExaminationRepository>();
+builder.Services.AddTransient<IVisitService, VisitService>();
+builder.Services.AddTransient<IVisitRepository, VisitRepository>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 

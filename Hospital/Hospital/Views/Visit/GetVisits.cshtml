@@ -1,0 +1,90 @@
+﻿@model IEnumerable<Hospital.DTO.Visit.VisitDto>
+@{
+    Layout = "_Dashboard";
+}
+
+<div class="col-md-2 col-lg-2 left-panel">
+    @if (User.IsInRole(nameof(RoleType.Doctor)))
+    {
+        <div class="panel-item">
+            @Html.ActionLink("Pacjenci","GetPatients","Patient",null,null)
+        </div>
+    }
+    @if (User.IsInRole(nameof(RoleType.Doctor)) || User.IsInRole(nameof(RoleType.Receptionist)))
+    {
+        <div class="panel-item">
+            @Html.ActionLink("Wizyty","GetVisits","Visit")
+        </div>
+    }
+    @if (User.IsInRole(nameof(RoleType.Doctor)) || User.IsInRole(nameof(RoleType.Nurse)))
+    {
+        <div class="panel-item active">
+            @Html.ActionLink("Badania","GetExaminations","Examination")
+        </div>
+    }
+</div>
+<div class="col-md-10 col-lg-10 main-panel">
+    <div class="offset-md-1 col-md-10" style="margin-top: 5rem;">
+        @if (User.IsInRole(nameof(RoleType.Doctor)))
+        {
+            <div style="text-align: right;">
+                @Html.ActionLink("Przyjmij pacjenta","CreateVisit","Visit",null,new { @class = "btn btn-primary", @type = "button"})
+            </div>
+        }
+        else if (User.IsInRole(nameof(RoleType.Receptionist)))
+        {
+            <div style="text-align: right;">
+                @Html.ActionLink("Utwórz wizytę","AssignVisitToDoctor","Visit",null,new { @class = "btn btn-primary", @type = "button"})
+            </div>
+        }
+        @if (Model != null && Model.Any())
+        {
+            <table class="table table-bordered" style="margin-top: 1rem;">
+                <thead>
+                    <tr>
+                        <th style="text-align:center">
+                            Pacjent
+                        </th>
+                        <th style="text-align:center">
+                            Data
+                        </th>
+                        <th style="text-align:center">
+                            Rozpoznanie
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var visit in Model)
+                    {
+                        <tr>
+                            <td style="text-align:center">
+                                @visit.PatientFullName
+                            </td>
+                            <td style="text-align:center">
+                                @visit.VisitDate.ToString("dd.MM.yyyy")
+                            </td>
+                            <td style="text-align:center">
+                                @visit.Recognition
+                            </td>
+
+                            <td style="text-align:center">
+                                @Html.ActionLink("Wyświetl","ViewVisit","Visit",new { visitId = visit.Id },new { @class = "btn btn-warning", @type = "button"})
+                                @Html.ActionLink("Edytuj wizytę","UpdateVisit","Visit",new { visitId = visit.Id },new { @class = "btn btn-primary", @type = "button"})
+                                @Html.ActionLink("Zleć badanie","CreateExamination","Visit",new { visitId = visit.Id },new { @class = "btn btn-primary", @type = "button"})
+                                @Html.ActionLink("Usuń","DeleteVisit","Visit",new { visitId = visit.Id },new { @class = "btn btn-danger", @type = "button"})
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div style="text-align:center">
+                <img src="https://cdn-icons-png.flaticon.com/512/6134/6134065.png" width="150" height="150" style="margin-bottom: 15px;" /><br />
+                Brak przypisanych wizyt
+            </div>
+        }
+    </div>
+</div>

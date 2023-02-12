@@ -15,5 +15,12 @@ namespace Hospital.Models
         public DateTime VisitDate { get; set; }
         public string Recognition { get; set; }
         public string Description { get; set; }
+        public Status Status { get; set; }
+    }
+
+    public enum Status
+    {
+        Finished,
+        Planned
     }
 }

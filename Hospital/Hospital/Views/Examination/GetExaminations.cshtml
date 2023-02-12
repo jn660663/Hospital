@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Hospital.DTO.Examination.ViewExaminationDto>
+
+@{
+    Layout = "_Dashboard";
+}
+<div class="col-md-2 col-lg-2 left-panel">
+    @if (User.IsInRole(nameof(RoleType.Doctor)))
+    {
+        <div class="panel-item">
+            @Html.ActionLink("Pacjenci","GetPatients","Patient",null,null)
+        </div>
+        <div class="panel-item">
+            @Html.ActionLink("Wizyty","GetVisits","Visit")
+        </div>
+    }
+    @if (User.IsInRole(nameof(RoleType.Doctor)) || User.IsInRole(nameof(RoleType.Nurse)))
+    {
+        <div class="panel-item active">
+            @Html.ActionLink("Badania","GetExaminations","Examination")
+        </div>
+    }
+</div>
+<div class="col-md-10 col-lg-10 main-panel">
+    <div class="offset-md-1 col-md-10" style="margin-top: 5rem;">
+        @if (Model != null && Model.Any())
+        {
+            <table class="table table-bordered" style="margin-top: 1rem;">
+                <thead>
+                    <tr>
+                        <th>
+                            Pacjent
+                        </th>
+                        <th>
+                            Nazwa badania
+                        </th>
+                        <th>
+                            Data badania
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var examination in Model)
+                    {
+                        <tr>
+                            <td>
+                                @examination.PatientFullName
+                            </td>
+                            <td>
+                                @examination.Name
+                            </td>
+                            <td>
+                                @examination.ExaminationDate.ToString("dd.MM.yyyy")
+                            </td>
+                            <td>
+                                @Html.ActionLink("Edytuj","UpdateExamination","Examination",new { examinationId = examination.Id },new { @class = "btn btn-primary", @type = "button"})
+                                @Html.ActionLink("Usuń","DeleteExamination","Examination",new { examinationId = examination.Id },new { @class = "btn btn-danger", @type = "button"})
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div style="text-align:center">
+                <img src="https://cdn-icons-png.flaticon.com/512/6134/6134065.png" width="150" height="150" style="margin-bottom: 15px;" /><br />
+                Brak przypisanych badań
+            </div>
+
+        }
+    </div>
+</div>
