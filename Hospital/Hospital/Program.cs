@@ -1,4 +1,8 @@
 using Hospital.Models;
+using Hospital.Repositories.Interfaces;
+using Hospital.Repositories;
+using Hospital.Services.Interfaces;
+using Hospital.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,6 +14,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
                             .AddRoles<IdentityRole<Guid>>()
                             .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<IPatientService, PatientService>();
+builder.Services.AddTransient<IPatientRepository, PatientRepository>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -28,6 +37,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

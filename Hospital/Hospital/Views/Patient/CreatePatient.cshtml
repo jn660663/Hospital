@@ -1,0 +1,57 @@
+﻿@model Hospital.DTO.Patient.CreatePatientDto
+
+<div class="row offset-2 col-md-8">
+    <form asp-action="CreatePatient" class="form-panel">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row row-space">
+            <div class="form-group header-text">
+                Dodajesz pacjenta
+            </div>
+        </div>
+        <div class="row row-space">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label asp-for="Name" class="form-text"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row row-space">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label asp-for="LastName" class="form-text"></label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row row-space">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="Age" class="form-text"></label>
+                    <input asp-for="Age" class="form-control" />
+                    <span asp-validation-for="Age" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="Pesel" class="form-text"></label>
+                    <input asp-for="Pesel" class="form-control" />
+                    <span asp-validation-for="Pesel" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row row-space">
+            <div class="form-group" style="text-align:right">
+                <input type="submit" value="Dodaj" class="signup-button" />
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

@@ -214,7 +214,7 @@ namespace Hospital.Controllers
             }
             else if (role == RoleType.Doctor.ToString())
             {
-                return RedirectToAction("Doctor", "Dashboard");
+                return RedirectToAction("GetPatients", "Patient");
             }
             else if (role == RoleType.Nurse.ToString())
             {

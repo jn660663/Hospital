@@ -1,0 +1,72 @@
+﻿@model IEnumerable<Hospital.Models.Patient>
+@{
+    Layout = "_Dashboard";
+}
+
+<div class="col-md-2 col-lg-2 left-panel">
+        <div class="panel-item active">
+            @Html.ActionLink("Pacjenci","Doctor","Dashboard",null,null)
+        </div>
+        <div class="panel-item">
+            @Html.ActionLink("Wizyty","Visits","Visit")
+        </div>
+        <div class="panel-item">
+            @Html.ActionLink("Badania","Index","Examination")
+        </div>
+</div>
+<div class="col-md-10 col-lg-10 main-panel">
+    <div class="offset-md-1 col-md-10" style="margin-top: 5rem;">
+        <div style="text-align: right;">
+            @Html.ActionLink("Dodaj","CreatePatient","Patient",null,new { @class = "btn btn-primary", @type = "button"})
+        </div>
+        @if (Model != null && Model.Any())
+        {
+            <table class="table table-bordered" style="margin-top: 1rem;">
+                <thead>
+                    <tr>
+                        <th style="text-align:center">
+                            Pacjent
+                        </th>
+                        <th style="text-align:center">
+                            Wiek
+                        </th>
+                        <th style="text-align:center">
+                            Pesel
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var patient in Model)
+                    {
+                        <tr>
+                            <td style="text-align:center">
+                            @patient.ToString()
+                                </td>
+                                <td style="text-align:center">
+                            @patient.Age
+                                </td>
+                                <td style="text-align:center">
+                            @patient.Pesel
+                                </td>
+
+                                <td style="text-align:center">
+                            @Html.ActionLink("Edytuj","UpdatePatient","Patient",new { patientId = patient.Id },new { @class = "btn btn-primary", @type = "button"})
+                            @Html.ActionLink("Zleć badanie","CreateExamination","Examination",new { patientId = patient.Id },new { @class = "btn btn-primary", @type = "button"})
+                            @Html.ActionLink("Usuń","DeletePatient","Patient",new { patientId = patient.Id },new { @class = "btn btn-danger", @type = "button"})
+                            @Html.ActionLink("Wyświetl","ViewPatient","Patient",new { patientId = patient.Id },new { @class = "btn btn-warning", @type = "button"})
+                                </td>
+                            </tr>
+                }
+            </tbody>
+        </table>
+        }
+        else
+        {
+            <div style="text-align:center">
+                <img src="https://cdn-icons-png.flaticon.com/512/6134/6134065.png" width="150" height="150" style="margin-bottom: 15px;" /><br />
+                Brak przypisanych pacjentów
+            </div>
+        }
+    </div>
+</div>

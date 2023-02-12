@@ -1,0 +1,99 @@
+﻿@model Hospital.DTO.Patient.PatientDto
+
+<div class="row offset-2 col-md-8">
+    <form asp-action="UpdatePatient" class="form-panel">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row row-space">
+            <div class="form-group header-text">
+                Dane medyczne pacjenta
+            </div>
+        </div>
+        <div class="row row-space">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label asp-for="Name" class="form-text"></label>
+                    <input asp-for="Name" class="form-control" disabled="disabled" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row row-space">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label asp-for="LastName" class="form-text"></label>
+                    <input asp-for="LastName" class="form-control" disabled="disabled" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row row-space">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="Age" class="form-text"></label>
+                    <input asp-for="Age" class="form-control" disabled="disabled" />
+                    <span asp-validation-for="Age" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="Pesel" class="form-text"></label>
+                    <input asp-for="Pesel" class="form-control" disabled="disabled" />
+                    <span asp-validation-for="Pesel" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row row-space">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label asp-for="DoctorFullName" class="form-text"></label>
+                    <input asp-for="DoctorFullName" class="form-control" disabled="disabled" />
+                    <span asp-validation-for="DoctorFullName" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row row-space">
+            <div class="slidedown_head">
+                Badania
+            </div>
+            <div class="slidedown_body" style="display:none">
+                @if (!Model.Examinatons.Any())
+                {
+                    <div class="col-md-12" style="text-align: center">
+                        Brak badań u pacjenta
+                    </div>
+                }
+                @foreach (var exam in Model.Examinatons)
+                {
+                    <div class="row col-md-12">
+                        <div class="col-md-4">
+                            <label asp-for="@exam.Name" class="form-text"></label>
+                            <input asp-for="@exam.Name" class="form-control" disabled="disabled" />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="@exam.NurseFullName" class="form-text"></label>
+                            <input asp-for="@exam.NurseFullName" class="form-control" disabled="disabled" />
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="@exam.ExaminationDate" class="form-text"></label>
+                            <input asp-for="@exam.ExaminationDate" class="form-control" disabled="disabled" type="date" />
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </form>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.slidedown_head').click(function () {
+                $(this).next('.slidedown_body').slideToggle();
+            });
+        });
+    </script>
+    }
