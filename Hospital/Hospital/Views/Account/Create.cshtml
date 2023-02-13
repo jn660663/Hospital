@@ -103,14 +103,18 @@
             document.getElementById("roleSel").value = "";
         });
         function changeRole(role) {
-            var targetDiv = document.getElementById("specDiv");
+            var specDiv = document.getElementById("specDiv");
+            var pwzDiv = document.getElementById("pwzDiv");
 
             if (role == 'Admin' || role == 'Receptionist') {
-                targetDiv.style.display = "none";
+                specDiv.style.display = "none";
+                pwzDiv.style.display = "none";
                 document.getElementById("specSel").value = "";
+                document.getElementById("pwzVal").value = null;
             }
             else {
-                targetDiv.style.display = "block";
+                specDiv.style.display = "block";
+                pwzDiv.style.display = "block";
             }
         }
     </script>

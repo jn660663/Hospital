@@ -1,0 +1,89 @@
+﻿@model Hospital.DTO.Examination.UpdateExaminationDto
+
+<div class="row offset-2 col-md-8">
+    <div class="form-panel">
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row row-space">
+            <div class="col-md-12">
+                <div class="form-group header-text">
+                    Badanie
+                </div>
+            </div>
+            <div class="row row-space">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="@Model.ExaminationDate" class="form-text"></label>
+                        <input asp-for="@Model.ExaminationDate" class="form-control" id="datePicker" type="date" disabled="disabled" />
+                        <span asp-validation-for="@Model.ExaminationDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="@Model.Name" class="form-text"></label>
+                        <input asp-for="@Model.Name" class="form-control" disabled="disabled" />
+                        <span asp-validation-for="@Model.Name" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row row-space">
+                <div class="col-md-12">
+                    <label asp-for="@Model.Nurses" class="form-text"></label>
+                    @Html.DropDownListFor(m => m.NurseId, Model.Nurses, new { @class = "form-control", @disabled="disabled" })
+                    <span asp-validation-for="NurseId" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row row-space">
+            <div class="form-group header-text">
+                Dane pacjenta
+            </div>
+        </div>
+        <div class="row row-space">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label asp-for="@Model.Patient.Name" class="form-text"></label>
+                    <input asp-for="@Model.Patient.Name" class="form-control" disabled="disabled" />
+                    <span asp-validation-for="@Model.Patient.Name" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row row-space">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label asp-for="@Model.Patient.LastName" class="form-text"></label>
+                    <input asp-for="@Model.Patient.LastName" class="form-control" disabled="disabled" />
+                    <span asp-validation-for="@Model.Patient.LastName" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row row-space">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="@Model.Patient.Age" class="form-text"></label>
+                    <input asp-for="@Model.Patient.Age" class="form-control" disabled="disabled" />
+                    <span asp-validation-for="@Model.Patient.Age" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="@Model.Patient.Pesel" class="form-text"></label>
+                    <input asp-for="@Model.Patient.Pesel" class="form-control" disabled="disabled" />
+                    <span asp-validation-for="@Model.Patient.Pesel" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row row-space">
+            <div class="form-group" style="text-align:right">
+                <input type="submit" value="Edytuj badanie" class="signup-button" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

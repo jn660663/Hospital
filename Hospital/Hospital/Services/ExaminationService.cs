@@ -1,4 +1,5 @@
 ﻿using Hospital.DTO.Examination;
+using Hospital.Helpers;
 using Hospital.Models;
 using Hospital.Repositories.Interfaces;
 using Hospital.Services.Interfaces;
@@ -51,11 +52,6 @@ namespace Hospital.Services
                 model.Nurses = nurses.Select(x =>
                              new SelectListItem() { Text = x.ToString() + " (Pielęgniarka)", Value = x.Id.ToString() }).ToList();
             }
-            else
-            {
-                var currentDoctor = await _userManager.FindByIdAsync(currentUserId);
-                model.Nurses = new List<SelectListItem>() { new SelectListItem() { Text = currentDoctor.ToString() + " (Lekarz)", Value = currentUserId } };
-            }
 
             return model;
         }
@@ -63,12 +59,21 @@ namespace Hospital.Services
         public IEnumerable<ViewExaminationDto> GetUserExamiantions(Guid userId)
         {
             var examinations = _examinationRepository.GetUserExamiantions(userId).ToList();
+            foreach(var examination in examinations)
+            {
+                if(examination.ExaminationDate.Date < DateTime.Now.Date)
+                {
+                    examination.Status = Status.Finished;
+                    _examinationRepository.UpdateExamination(examination);
+                }
+            }
             var model = examinations.Select(x => new ViewExaminationDto()
             {
                 Id = x.Id,
                 ExaminationDate = x.ExaminationDate,
                 Name = x.Name,
-                PatientFullName = x.Patient.ToString()
+                PatientFullName = x.Patient.ToString(),
+                Status = Mapper.MapStatus(x.Status)
             });
 
             return model;

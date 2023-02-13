@@ -137,3 +137,11 @@ tbody {
 a {
     text-decoration: none;
 }
+
+.searchBar {
+    margin-bottom: 10px;
+}
+
+.searchRow {
+    margin-top: 15px !important;
+}

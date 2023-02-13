@@ -3,6 +3,13 @@
 @{
     Layout = "_Dashboard";
 }
+@if (ViewBag.Message != null)
+{
+    <div class="row offset-3 col-md-6 active-message">
+        @ViewBag.Message
+    </div>
+
+}
 <div class="col-md-2 col-lg-2 left-panel">
     @if (User.IsInRole(nameof(RoleType.Doctor)))
     {
@@ -13,7 +20,7 @@
             @Html.ActionLink("Wizyty","GetVisits","Visit")
         </div>
     }
-    @if (User.IsInRole(nameof(RoleType.Doctor)) || User.IsInRole(nameof(RoleType.Nurse)))
+    @if (User.IsInRole(nameof(RoleType.Nurse)))
     {
         <div class="panel-item active">
             @Html.ActionLink("Badania","GetExaminations","Examination")
@@ -24,6 +31,9 @@
     <div class="offset-md-1 col-md-10" style="margin-top: 5rem;">
         @if (Model != null && Model.Any())
         {
+            <div class="col-md-12 searchRow">
+                <input placeholder="Szukaj..." type="text" class="form-control searchBar" id="search" oninput="searchItems(this.value)" />
+            </div>
             <table class="table table-bordered" style="margin-top: 1rem;">
                 <thead>
                     <tr>
@@ -36,15 +46,18 @@
                         <th>
                             Data badania
                         </th>
+                        <th>
+                            Status
+                        </th>
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="list">
                     @foreach (var examination in Model)
                     {
                         <tr>
                             <td>
-                                @examination.PatientFullName
+                                <span>@examination.PatientFullName</span>
                             </td>
                             <td>
                                 @examination.Name
@@ -53,7 +66,14 @@
                                 @examination.ExaminationDate.ToString("dd.MM.yyyy")
                             </td>
                             <td>
-                                @Html.ActionLink("Edytuj","UpdateExamination","Examination",new { examinationId = examination.Id },new { @class = "btn btn-primary", @type = "button"})
+                                @examination.Status
+                            </td>
+                            <td>
+                                @if (examination.Status == "Zaplanowane")
+                                {
+                                    @Html.ActionLink("Edytuj","UpdateExamination","Examination",new { examinationId = examination.Id },new { @class = "btn btn-primary", @type = "button"})
+                                }
+                                @Html.ActionLink("Wyświetl","ViewExamination","Examination",new { examinationId = examination.Id },new { @class = "btn btn-warning", @type = "button"})
                                 @Html.ActionLink("Usuń","DeleteExamination","Examination",new { examinationId = examination.Id },new { @class = "btn btn-danger", @type = "button"})
 
                             </td>
@@ -72,3 +92,33 @@
         }
     </div>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript">
+
+        window.onload = () => {
+            if (document.getElementById("search").value.length > 0) {
+                searchItems(document.getElementById("search").value);
+            }
+        }
+
+        function searchItems(searchPhrase) {
+            const list = document.getElementById('list');
+            var items = [...list.children];
+            items.forEach(x => {
+                if (searchPhrase === undefined || searchPhrase.length === 0) {
+                    x.style.display = "table-row";
+                }
+                else if (x.getElementsByTagName('span')[0].innerHTML.toLowerCase().includes(searchPhrase.toLowerCase())) {
+                    x.style.display = "table-row";
+                }
+                else {
+                    x.style.display = "none";
+                }
+            });
+        }
+    </script>
+}

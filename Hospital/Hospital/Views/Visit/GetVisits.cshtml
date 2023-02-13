@@ -12,13 +12,13 @@
     }
     @if (User.IsInRole(nameof(RoleType.Doctor)) || User.IsInRole(nameof(RoleType.Receptionist)))
     {
-        <div class="panel-item">
+        <div class="panel-item active">
             @Html.ActionLink("Wizyty","GetVisits","Visit")
         </div>
     }
-    @if (User.IsInRole(nameof(RoleType.Doctor)) || User.IsInRole(nameof(RoleType.Nurse)))
+    @if (User.IsInRole(nameof(RoleType.Nurse)))
     {
-        <div class="panel-item active">
+        <div class="panel-item">
             @Html.ActionLink("Badania","GetExaminations","Examination")
         </div>
     }
@@ -39,6 +39,9 @@
         }
         @if (Model != null && Model.Any())
         {
+            <div class="col-md-12 searchRow">
+                <input placeholder="Szukaj..." type="text" class="form-control searchBar" id="search" oninput="searchItems(this.value)" />
+            </div>
             <table class="table table-bordered" style="margin-top: 1rem;">
                 <thead>
                     <tr>
@@ -51,15 +54,23 @@
                         <th style="text-align:center">
                             Rozpoznanie
                         </th>
+                        <th style="text-align:center">
+                            Status
+                        </th>
+                        @if (User.IsInRole(nameof(RoleType.Receptionist))){
+                            <th style="text-align:center">
+                                Lekarz
+                            </th >
+                        } 
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="list">
                     @foreach (var visit in Model)
                     {
                         <tr>
                             <td style="text-align:center">
-                                @visit.PatientFullName
+                                <span>@visit.PatientFullName</span>
                             </td>
                             <td style="text-align:center">
                                 @visit.VisitDate.ToString("dd.MM.yyyy")
@@ -67,11 +78,21 @@
                             <td style="text-align:center">
                                 @visit.Recognition
                             </td>
-
+                            <td style="text-align:center">
+                                @visit.Status
+                            </td>
+                            @if (User.IsInRole(nameof(RoleType.Receptionist)))
+                            {
+                                <td style="text-align:center">
+                                    @visit.DoctorFullName
+                                </td>
+                            }
                             <td style="text-align:center">
                                 @Html.ActionLink("Wyświetl","ViewVisit","Visit",new { visitId = visit.Id },new { @class = "btn btn-warning", @type = "button"})
-                                @Html.ActionLink("Edytuj wizytę","UpdateVisit","Visit",new { visitId = visit.Id },new { @class = "btn btn-primary", @type = "button"})
-                                @Html.ActionLink("Zleć badanie","CreateExamination","Visit",new { visitId = visit.Id },new { @class = "btn btn-primary", @type = "button"})
+                                @if (visit.Status == "Zaplanowane" && User.IsInRole(nameof(RoleType.Doctor)))
+                                {
+                                    @Html.ActionLink("Edytuj wizytę","UpdateVisit","Visit",new { visitId = visit.Id },new { @class = "btn btn-primary", @type = "button"})
+                                }
                                 @Html.ActionLink("Usuń","DeleteVisit","Visit",new { visitId = visit.Id },new { @class = "btn btn-danger", @type = "button"})
                             </td>
                         </tr>
@@ -88,3 +109,33 @@
         }
     </div>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript">
+
+        window.onload = () => {
+            if (document.getElementById("search").value.length > 0) {
+                searchItems(document.getElementById("search").value);
+            }
+        }
+
+        function searchItems(searchPhrase) {
+            const list = document.getElementById('list');
+            var items = [...list.children];
+            items.forEach(x => {
+                if (searchPhrase === undefined || searchPhrase.length === 0) {
+                    x.style.display = "table-row";
+                }
+                else if (x.getElementsByTagName('span')[0].innerHTML.toLowerCase().includes(searchPhrase.toLowerCase())) {
+                    x.style.display = "table-row";
+                }
+                else {
+                    x.style.display = "none";
+                }
+            });
+        }
+    </script>
+}

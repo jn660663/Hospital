@@ -1,4 +1,6 @@
-﻿namespace Hospital.DTO.Visit
+﻿using Hospital.Models;
+
+namespace Hospital.DTO.Visit
 {
     public class VisitDto
     {
@@ -7,5 +9,7 @@
         public string Recognition { get; set; }
         public string Description { get; set; }
         public string PatientFullName { get; set; }
+        public string DoctorFullName { get; set; }
+        public string Status { get; set; }
     }
 }

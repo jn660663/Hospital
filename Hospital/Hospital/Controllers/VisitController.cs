@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel;
 using System.Data;
 using System.Security.Claims;
 
@@ -27,11 +28,17 @@ namespace Hospital.Controllers
         }
 
         [Authorize(Roles = $"{nameof(RoleType.Doctor)}, {nameof(RoleType.Receptionist)}")]
-        public IActionResult GetVisits()
+        public async Task<IActionResult> GetVisits()
         {
             var currentUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var visits = _visitService.GetDoctorVisits(currentUserId);
-            return View(visits);
+            var role = await GetRole(currentUserId);
+            if(role == RoleType.Doctor.ToString())
+            {
+                return View(_visitService.GetDoctorVisits(currentUserId));
+            }
+
+            return View(_visitService.GetAllVisits());
+            
         }
 
         [Authorize(Roles = $"{nameof(RoleType.Doctor)}, {nameof(RoleType.Receptionist)}")]
@@ -45,12 +52,11 @@ namespace Hospital.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = $"{nameof(RoleType.Doctor)}, {nameof(RoleType.Receptionist)}")]
+        [Authorize(Roles = $"{nameof(RoleType.Doctor)}")]
         [HttpPost]
         public async Task<IActionResult> CreateVisit(CreateVisitDto request)
         {
-            var currentUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var role = await GetRole(currentUserId);           
+            var currentUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));        
 
             var visit = new Visit()
             {
@@ -58,22 +64,15 @@ namespace Hospital.Controllers
                 VisitDate = DateTime.Now,
                 Recognition = request.Recognition,
                 Description = request.Description,
-                DoctorId = currentUserId
+                DoctorId = currentUserId,
+                Status = Status.Finished
             };
-
-            if (role == RoleType.Doctor.ToString())
-            {
-                visit.Status = Status.Finished;
-            }
-            else
-            {
-                visit.Status = Status.Planned;
-            }
 
             _visitService.CreateVisit(visit);
             return RedirectToAction(nameof(GetVisits));
         }
 
+        [Authorize(Roles = $"{nameof(RoleType.Receptionist)}")]
         public async Task<IActionResult> AssignVisitToDoctor()
         {
             var patients = _patientService.GetAllPatients();
@@ -89,15 +88,74 @@ namespace Hospital.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = $"{nameof(RoleType.Receptionist)}")]
         public IActionResult AssignVisitToDoctor(AssignVisitToDoctorDto request)
         {
             var visit = new Visit()
             {
                 DoctorId = Guid.Parse(request.DoctorId),
                 PatientId = Guid.Parse(request.PatientId),
-                VisitDate = request.VisitDate
+                VisitDate = request.VisitDate,
+                Status = Status.Planned
             };
             _visitService.CreateVisit(visit);
+            return RedirectToAction(nameof(GetVisits));
+        }
+
+        [Authorize(Roles = $"{nameof(RoleType.Doctor)}, {nameof(RoleType.Receptionist)}")]
+        public IActionResult UpdateVisit(Guid visitId)
+        {
+            var model = new UpdateVisitDto();
+            var visit = _visitService.GetVisitById(visitId);
+            var patient = _patientService.GetPatientById(visit.PatientId);
+            model.Id = visit.Id;
+            model.Patient = patient.Name + " " + patient.LastName + " (" + patient.Pesel + ")";
+            model.Description = visit.Description;
+            model.Recognition = visit.Recognition;
+            return View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = $"{nameof(RoleType.Doctor)}, {nameof(RoleType.Receptionist)}")]
+        public async Task<IActionResult> UpdateVisit(UpdateVisitDto request)
+        {
+            var currentUserId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var role = await GetRole(currentUserId);
+            var visit = _visitService.GetVisitById(request.Id);
+            if(role == RoleType.Doctor.ToString())
+            {
+                visit.Status = Status.Finished;
+            }
+            else
+            {
+                visit.Status = Status.Planned;
+            }
+            visit.Recognition = request.Recognition;
+            visit.Description = request.Description;
+            _visitService.UpdateVisit(visit);
+            return RedirectToAction(nameof(GetVisits));
+        }
+
+        [Authorize(Roles = $"{nameof(RoleType.Doctor)}, {nameof(RoleType.Receptionist)}")]
+        public IActionResult ViewVisit(Guid visitId)
+        {
+            var visit = _visitService.GetVisitById(visitId);
+            var patient = _patientService.GetPatientById(visit.PatientId);
+            var mappedPatient = _patientService.MapPatient(patient);
+            var model = new ViewVisitDto()
+            {
+                Description = visit.Description,
+                VisitDate = visit.VisitDate,
+                Recognition = visit.Recognition,
+                Patient = mappedPatient
+            };
+            return View(model);
+        }
+
+        [Authorize(Roles = $"{nameof(RoleType.Doctor)}, {nameof(RoleType.Receptionist)}")]
+        public IActionResult DeleteVisit(Guid visitId)
+        {
+            _visitService.DeleteVisit(visitId);
             return RedirectToAction(nameof(GetVisits));
         }
 

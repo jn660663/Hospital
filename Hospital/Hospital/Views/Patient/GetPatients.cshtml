@@ -6,16 +6,16 @@
 <div class="col-md-2 col-lg-2 left-panel">
     @if (User.IsInRole(nameof(RoleType.Doctor)))
     {
-        <div class="panel-item">
+        <div class="panel-item active">
             @Html.ActionLink("Pacjenci","GetPatients","Patient",null,null)
         </div>
         <div class="panel-item">
             @Html.ActionLink("Wizyty","GetVisits","Visit")
         </div>
     }
-    @if (User.IsInRole(nameof(RoleType.Doctor)) || User.IsInRole(nameof(RoleType.Nurse)))
+    @if (User.IsInRole(nameof(RoleType.Nurse)))
     {
-        <div class="panel-item active">
+        <div class="panel-item">
             @Html.ActionLink("Badania","GetExaminations","Examination")
         </div>
     }
@@ -27,6 +27,9 @@
         </div>
         @if (Model != null && Model.Any())
         {
+            <div class="col-md-12 searchRow">
+                <input placeholder="Szukaj..." type="text" class="form-control searchBar" id="search" oninput="searchItems(this.value)" />
+            </div>
             <table class="table table-bordered" style="margin-top: 1rem;">
                 <thead>
                     <tr>
@@ -42,12 +45,12 @@
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="list">
                     @foreach (var patient in Model)
                     {
                         <tr>
                             <td style="text-align:center">
-                            @patient.ToString()
+                                <span>@patient.ToString()</span>
                                 </td>
                                 <td style="text-align:center">
                             @patient.Age
@@ -76,3 +79,34 @@
         }
     </div>
 </div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script type="text/javascript">
+
+        window.onload = () => {
+            if (document.getElementById("search").value.length > 0) {
+                searchItems(document.getElementById("search").value);
+            }
+        }
+
+        function searchItems(searchPhrase) {
+            const list = document.getElementById('list');
+            var items = [...list.children];
+            items.forEach(x => {
+                if (searchPhrase === undefined || searchPhrase.length === 0) {
+                    x.style.display = "table-row";
+                }
+                else if (x.getElementsByTagName('span')[0].innerHTML.toLowerCase().includes(searchPhrase.toLowerCase())) {
+                    x.style.display = "table-row";
+                }
+                else {
+                    x.style.display = "none";
+                }
+            });
+        }
+    </script>
+}

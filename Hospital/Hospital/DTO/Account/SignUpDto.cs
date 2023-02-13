@@ -24,7 +24,7 @@ namespace Hospital.DTO.Account
 
         [Required(ErrorMessage = "To pole jest wymagane")]
         [Display(Name = "Numer PWZ")]
-        public int PWZ { get; set; }
+        public int? PWZ { get; set; }
 
         [Required(ErrorMessage = "To pole jest wymagane")]
         [Display(Name = "Rola")]

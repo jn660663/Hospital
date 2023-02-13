@@ -7,7 +7,7 @@ namespace Hospital.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Specialization { get; set; }
-        public int PWZ { get; set; }
+        public int? PWZ { get; set; }
         public bool IsActive { get; set; }
         public virtual ICollection<Patient> Patients { get; set; }
         public virtual ICollection<Visit> Visits { get; set; }

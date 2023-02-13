@@ -1,8 +1,10 @@
 ﻿using Hospital.DTO.Account;
 using Hospital.DTO.User;
 using Hospital.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using System.Security.Claims;
 
 namespace Hospital.Controllers
@@ -22,6 +24,7 @@ namespace Hospital.Controllers
             _signInManager = signInManager;
         }
 
+        [Authorize(Roles = $"{nameof(RoleType.Admin)}")]
         public async Task<IActionResult> GetUsers()
         {
             var users = _userManager.Users.Select(x => new UserDto()
@@ -122,12 +125,14 @@ namespace Hospital.Controllers
             return View(request);
         }
 
+        [Authorize(Roles = $"{nameof(RoleType.Admin)}")]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = $"{nameof(RoleType.Admin)}")]
         public async Task<IActionResult> Create(SignUpDto request)
         {
             var existingUser = await _userManager.FindByEmailAsync(request.Email);
@@ -157,6 +162,7 @@ namespace Hospital.Controllers
             return RedirectToAction(nameof(GetUsers));
         }
 
+        [Authorize(Roles = $"{nameof(RoleType.Admin)}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
@@ -164,6 +170,7 @@ namespace Hospital.Controllers
             return RedirectToAction(nameof(GetUsers));
         }
 
+        [Authorize(Roles = $"{nameof(RoleType.Admin)}")]
         public async Task<IActionResult> Update(Guid id)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
@@ -182,6 +189,7 @@ namespace Hospital.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = $"{nameof(RoleType.Admin)}")]
         public async Task<IActionResult> Update(UpdateUserDto request)
         {
             var user = await _userManager.FindByIdAsync(request.Id.ToString());
@@ -195,9 +203,10 @@ namespace Hospital.Controllers
             await _userManager.RemoveFromRoleAsync(user, oldRole);
             Enum.TryParse(request.Role, out RoleType role);
             await GiveRoleToUser(user, role);
-            return RedirectToAction("Index", "Dashboard");
+            return RedirectToAction(nameof(GetUsers));
         }
 
+        [Authorize(Roles = $"{nameof(RoleType.Admin)}")]
         public async Task<IActionResult> ChangeStatus(Guid id, bool isActive)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
@@ -227,6 +236,7 @@ namespace Hospital.Controllers
             return RedirectToAction("Login");
         }
 
+        [Authorize]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();

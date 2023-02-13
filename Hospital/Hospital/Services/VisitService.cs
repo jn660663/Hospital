@@ -1,4 +1,5 @@
 ﻿using Hospital.DTO.Visit;
+using Hospital.Helpers;
 using Hospital.Models;
 using Hospital.Repositories.Interfaces;
 using Hospital.Services.Interfaces;
@@ -31,7 +32,9 @@ namespace Hospital.Services
                 Description = x.Description,
                 PatientFullName = x.Patient.ToString(),
                 VisitDate = x.VisitDate,
-                Recognition = x.Recognition
+                Recognition = x.Recognition,
+                Status = Mapper.MapStatus(x.Status),
+                DoctorFullName = x.Doctor.ToString()
             });
         }
 
@@ -44,7 +47,8 @@ namespace Hospital.Services
                 Description = x.Description,
                 PatientFullName = x.Patient.ToString(),
                 VisitDate = x.VisitDate,
-                Recognition = x.Recognition
+                Recognition = x.Recognition,
+                Status = Mapper.MapStatus(x.Status)
             });
         }
 

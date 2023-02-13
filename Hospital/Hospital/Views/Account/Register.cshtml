@@ -36,10 +36,10 @@
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6" id="pwzDiv">
                 <div class="form-group">
                     <label asp-for="PWZ" class="form-text"></label>
-                    <input asp-for="PWZ" class="form-control" />
+                    <input asp-for="PWZ" class="form-control" id="pwzVal"/>
                     <span asp-validation-for="PWZ" class="text-danger"></span>
                 </div>
             </div>
@@ -111,14 +111,18 @@
             document.getElementById("roleSel").value = "";
         });
         function changeRole(role) {
-            var targetDiv = document.getElementById("specDiv");
+            var specDiv = document.getElementById("specDiv");
+            var pwzDiv = document.getElementById("pwzDiv");
 
             if (role == 'Admin' || role == 'Receptionist') {
-                targetDiv.style.display = "none";
+                specDiv.style.display = "none";
+                pwzDiv.style.display = "none";
                 document.getElementById("specSel").value = "";
+                document.getElementById("pwzVal").value = null;
             }
             else {
-                targetDiv.style.display = "block";
+                specDiv.style.display = "block";
+                pwzDiv.style.display = "block";
             }
         }
     </script>

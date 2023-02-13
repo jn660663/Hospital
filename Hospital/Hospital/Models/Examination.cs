@@ -11,6 +11,7 @@ namespace Hospital.Models
         public virtual Patient Patient { get; set; }
         public Guid NurseId { get; set; }
         public DateTime ExaminationDate { get; set; }
+        public Status Status { get; set; }
         
     }
 }

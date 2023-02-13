@@ -47,6 +47,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhhbWluYXRpb25cVXBkYXRlRXhhbWluYXRpb24uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/potte/Desktop/Hospital/Hospital/Hospital/Views/Examination/ViewExamination.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRXhhbWluYXRpb25cVmlld0V4YW1pbmF0aW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/potte/Desktop/Hospital/Hospital/Hospital/Views/Patient/CreatePatient.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF0aWVudFxDcmVhdGVQYXRpZW50LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 

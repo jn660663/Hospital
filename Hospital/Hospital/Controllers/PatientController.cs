@@ -1,10 +1,13 @@
 ﻿using Hospital.DTO.Patient;
+using Hospital.Models;
 using Hospital.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace Hospital.Controllers
 {
+    [Authorize(Roles = $"{nameof(RoleType.Doctor)}")]
     public class PatientController : Controller
     {
         private readonly IPatientService _patientService;
