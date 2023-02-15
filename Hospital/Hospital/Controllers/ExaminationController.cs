@@ -95,7 +95,7 @@ namespace Hospital.Controllers
             examination.NurseId = Guid.Parse(request.NurseId);
             examination.Status = Status.Planned;
             _examinationService.CreateExamination(examination);
-            return RedirectToAction(nameof(GetExaminations));
+            return RedirectToAction("GetPatients", "Patient");
         }
     }
 }
