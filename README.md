@@ -8,6 +8,7 @@ Aplikacja zawiera system rejestracji oraz Logowania:
 - z panelu recepcjonistki widzimy daty wizyt, możemy je wyświetlać usuwać oraz tworzyć.
 
 Wymagania i wyjaśnienia działania:
+  - Do uruchomienia wymagany jest Visual Studio 2022
   - Do uruchomienia aplikacji wymagane jest wpisanie w konsoli menadżera pakietów (Można ją znaleźć pod: 'Widok -> Inne okna -> Konsola menadżera pakietów')
     komendy: update-database
   - W eksploratorze testów można uruchomić wszystkie testy.
